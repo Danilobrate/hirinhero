@@ -17,14 +17,18 @@ export default function Wizard({config}: {config: WizardConfig}) {
   const [consentErr, setConsentErr] = useState(false);
   const boxRef = useRef<HTMLDivElement>(null);
 
-  const allFields = useMemo(() => config.steps.flatMap(s => s.fields), [config]);
-  const total = allFields.length;
-  const filled = allFields.filter(f =>
+  const isFilled = (f: Field) =>
     f.type === 'file' ? !!cv :
     f.type === 'checkbox' ? values[f.name] === true :
-    typeof values[f.name] === 'string' && (values[f.name] as string).trim() !== ''
-  ).length;
-  const pct = Math.round((filled / total) * 100);
+    typeof values[f.name] === 'string' && (values[f.name] as string).trim() !== '';
+
+  // Napredak prati korake, ne sva polja odjednom — sadašnji korak doprinosi
+  // razmjerno svojoj popunjenosti, tako da % raste smisleno i nikad ne "skoči"
+  // zbog polja na drugim koracima.
+  const totalSteps = config.steps.length;
+  const curFields = config.steps[step].fields;
+  const curFilled = curFields.length ? curFields.filter(isFilled).length / curFields.length : 1;
+  const pct = Math.min(100, Math.round(((step + curFilled) / totalSteps) * 100));
 
   const set = (name: string, v: string | boolean) => setValues(p => ({...p, [name]: v}));
   const scrollTop = () => boxRef.current?.scrollIntoView({behavior: 'smooth', block: 'start'});
