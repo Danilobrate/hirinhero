@@ -15,10 +15,17 @@ export async function notify(subject: string, text: string) {
   const to = process.env.NOTIFY_EMAIL;
   if (!apiKey || !to) return false;
   const resend = new Resend(apiKey);
-  await resend.emails.send({
+  const {error} = await resend.emails.send({
     from: process.env.FROM_EMAIL || 'onboarding@resend.dev',
     to, subject, text
   });
+  // Resend ne baca izuzetak za API-nivo greske (npr. rate limit, neverifikovan
+  // domen) — vec ih vraca kao `error` polje. Bez ove provjere greska ostaje
+  // nevidljiva i mejl jednostavno ne stigne, bez traga u logovima.
+  if (error) {
+    console.error('resend error', error);
+    return false;
+  }
   return true;
 }
 
