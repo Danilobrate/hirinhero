@@ -215,7 +215,26 @@
     .why-grid,.svc-detail,.ai,.form-grid,.fgrid{grid-template-columns:1fr;gap:34px}
     .steps{grid-template-columns:1fr 1fr}
     .menu{position:fixed;inset:74px 0 auto 0;background:#fff;flex-direction:column;align-items:flex-start;
-      gap:0;padding:10px 28px 24px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:.32s;bq��\�Y�Ν�\�K\�Y��_B��Y[�K��[���[�ٛܛN��ۙ_B��Y[�HK���Y[�ΌM��Y�L	N؛ܙ\�X���N�\��Y�\�K[[�JNٛ۝\�^�N�M�B���\��\��\�^N��^B��Z^�Y[�Ό�B��X�[۞�Y[�΍�B�B�YYXJX^]�Y�M�
-^˜�]��ܚY�ܚY][\]KX��[[�ΌY��Y��K��\��ܚY][\]KX��[[�ΌY��K�\��[Y]^��\�N_B��ʈOOH�^����[�HOOH
-��[��^�\�^N�[�[�KX�����Y[�΍�L����܎��\�KX��JN��[��][ێ����ٛ۝]�ZY���ٛ۝\�^�N�L�B��[��K�۞ؘX��ܛ�[���\�K[�]�JN���܎�ٙ��B����[����܎��\�KZ[��_B����^�\�^N�����B��ދY\�����܎�،�L�ٛ۝\�^�N�Mٛ۝]�ZY����X\��[�]��LB������YX�\����][ێ��^Y�Y��M�ܚY��M�؛��N�M�ދZ[�^�LؘX��ܛ�[��ٙ��؛ܙ\��\��Y�\�K[[�JN�ܙ\�\�Y]\ΌM�؛�\�Y�Ν�\�K\�Y��N�Y[�ΌM���\�^N��^��\�M��[YۋZ][\Θ�[�\��\�Y�KX�۝[���X�KX�]�Y[�ٛ^]ܘ\�ܘ\�X^]�Y�L��X\��[��]]�B������YX�\�ٛ۝\�^�N�M���܎��\�KZ[��N�X\��[��B������YX�\�^���܎��\�KXX��[�Y
-Nٛ۝]�ZY����^YX�ܘ][ێ�[�\�[�_B��؋X����\�^N��^��\�LB������YX�\�����Y[�ΌLNٛ۝\�^�N�MB������KY�۝Z[�\���[�\��B
+      gap:0;padding:10px 28px 24px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:.32s;box-shadow:var(--shadow)}
+    .menu.open{transform:none}
+    .menu a.nl{padding:14px 0;width:100%;border-bottom:1px solid var(--line);font-size:17px}
+    .burger{display:flex}
+    .ai{padding:38px}
+    section{padding:70px 0}
+  }
+  @media(max-width:560px){.stats .grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr}.hero-meta{gap:18px}}
+
+/* === Next.js dopune === */
+.lang a{display:inline-block;padding:7px 12px;color:var(--body);transition:.2s;font-weight:700;font-size:13px}
+.lang a.on{background:var(--navy);color:#fff}
+.brand{color:var(--ink)}
+.fwm{display:block}
+.wz-err{color:#b02a30;font-size:14px;font-weight:600;margin-top:10px}
+.cookiebar{position:fixed;left:16px;right:16px;bottom:16px;z-index:90;background:#fff;border:1px solid var(--line);
+  border-radius:16px;box-shadow:var(--shadow);padding:16px 20px;display:flex;gap:16px;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;max-width:920px;margin:0 auto}
+.cookiebar p{font-size:14px;color:var(--ink);margin:0}
+.cookiebar a{color:var(--accent-d);font-weight:600;text-decoration:underline}
+.cb-btns{display:flex;gap:10px}
+.cookiebar .btn{padding:10px 18px;font-size:14px}
+:root{--font-inter:"Inter"}
