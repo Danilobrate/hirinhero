@@ -35,7 +35,7 @@ export default async function About({params}: {params: Promise<{locale: string}>
             <div className="eyebrow">{t('pr_eyebrow')}</div>
             <h2>{t('pr_h2')}</h2>
           </div>
-          <p className="lead reveal" style={{maxWidth: 820}}>{t('pr_p')}</p>
+          <p className="lead reveal" style={{maxWidth: 820, whiteSpace: 'pre-line'}}>{t('pr_p')}</p>
           <div className="vals">
             {[1, 2, 3].map(i => (
               <div className="val reveal" key={i}><h4>{t(`pv${i}_h`)}</h4><p>{t(`pv${i}_p`)}</p></div>
@@ -49,7 +49,7 @@ export default async function About({params}: {params: Promise<{locale: string}>
           <div className="panel">
             <div className="tag">{t('ab_founder_tag')}</div>
             <h3>Danilo Popović</h3>
-            <p>{t('ab_founder_p')}</p>
+            <p style={{whiteSpace: 'pre-line'}}>{t('ab_founder_p')}</p>
           </div>
           <div>
             <div className="eyebrow">{t('ab_val_eyebrow')}</div>
