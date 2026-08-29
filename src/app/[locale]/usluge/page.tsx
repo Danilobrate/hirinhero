@@ -21,6 +21,7 @@ export default async function Services({params}: {params: Promise<{locale: strin
               <h3>{t('sv1_h')}</h3>
               <ol>{[1, 2, 3, 4, 5].map(i => <li key={i}>{t(`sv1_${i}`)}</li>)}</ol>
               <div className="row"><span>{t('sv_guarantee')}</span><b>{t('sv1_g')}</b></div>
+              <div className="row"><span>{t('sv1_adv_l')}</span><b>{t('sv1_adv')}</b></div>
               <div className="row"><span>{t('sv_invest')}</span><b>{t('sv1_i')}</b></div>
             </div>
             <div className="panel dark">
