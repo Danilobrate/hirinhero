@@ -18,7 +18,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
       <section className="hero">
         <div className="wrap">
           <div className="eyebrow reveal">{t('hero_eyebrow')}</div>
-          <h1 className="reveal">{t('hero_h1')}</h1>
+          <h1 className="reveal" style={{whiteSpace: 'pre-line'}}>{t('hero_h1')}</h1>
           <p className="lead reveal">{t('hero_lead')}</p>
           <div className="hero-cta reveal">
             <Link className="btn btn-primary" href="/za-poslodavce">{t('hero_cta1')}</Link>
@@ -116,7 +116,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
         <div className="wrap">
           <div className="sec-head reveal" style={{marginBottom: 40}}>
             <div className="eyebrow">{t('proc_eyebrow')}</div>
-            <h2>{t('proc_h2')}</h2>
+            <h2 style={{whiteSpace: 'pre-line'}}>{t('proc_h2')}</h2>
           </div>
           <div className="steps">
             {[1, 2, 3, 4].map(i => (
