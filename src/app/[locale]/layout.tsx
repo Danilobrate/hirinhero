@@ -33,7 +33,7 @@ const orgLd = {
   '@context': 'https://schema.org', '@type': 'Organization',
   name: 'Hirin’ Hero Co d.o.o.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://hirinhero.me',
-  email: 'danilo365days@gmail.com', telephone: '+382 69 595 669',
+  email: 'info@hirinhero.me', telephone: '+382 69 595 669',
   address: {'@type': 'PostalAddress', streetAddress: 'Oktobarske revolucije 86', addressLocality: 'Podgorica', addressCountry: 'ME'},
   sameAs: ['https://www.linkedin.com/in/danilomontenegro']
 };
