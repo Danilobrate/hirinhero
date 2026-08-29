@@ -19,7 +19,7 @@ export async function generateMetadata({params}: {params: Promise<{locale: strin
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://hirinhero.me';
   return {
     metadataBase: new URL(base),
-    title: {default: t('meta_title'), template: '%s — Hirin’ Hero'},
+    title: {default: t('meta_title'), template: '%s - Hirin’ Hero'},
     description: t('meta_desc'),
     openGraph: {
       title: t('meta_title'), description: t('meta_desc'), url: base,
@@ -33,9 +33,8 @@ const orgLd = {
   '@context': 'https://schema.org', '@type': 'Organization',
   name: 'Hirin’ Hero Co d.o.o.',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://hirinhero.me',
-  email: 'info@hirinhero.me', telephone: '+382 69 595 669',
-  address: {'@type': 'PostalAddress', streetAddress: 'Oktobarske revolucije 86', addressLocality: 'Podgorica', addressCountry: 'ME'},
-  sameAs: ['https://www.linkedin.com/in/danilomontenegro']
+  email: 'info@hirinhero.me',
+  address: {'@type': 'PostalAddress', streetAddress: 'Oktobarske revolucije 86', addressLocality: 'Podgorica', addressCountry: 'ME'}
 };
 
 export default async function LocaleLayout({children, params}: {children: React.ReactNode; params: Promise<{locale: string}>}) {
