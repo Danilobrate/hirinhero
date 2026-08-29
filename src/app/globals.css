@@ -32,7 +32,7 @@
   header.scrolled{border-bottom-color:var(--line);box-shadow:0 6px 24px -18px rgba(20,40,70,.4)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
   .brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);font-size:20px;letter-spacing:-.02em}
-  .brand .mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--navy),#274b75);
+  .brand .mark{width:34px;height:34px;border-radius:9px;background:var(--navy);
     color:#fff;display:grid;place-items:center;font-size:17px;font-weight:800}
   .brand .mark span{color:var(--accent)}
   .menu{display:flex;align-items:center;gap:30px}
@@ -215,7 +215,7 @@
     .why-grid,.svc-detail,.ai,.form-grid,.fgrid{grid-template-columns:1fr;gap:34px}
     .steps{grid-template-columns:1fr 1fr}
     .menu{position:fixed;inset:74px 0 auto 0;background:#fff;flex-direction:column;align-items:flex-start;
-      gap:0;padding:10px 28px 24px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:.32s;box-shadow:var(--shadow)}
+      gap:0;padding:10px 28px 24px;border-bottom:1px solid var(--line);transform:translateY(-130%);transition:.32s;brox-shadow:var(--shadow)}
     .menu.open{transform:none}
     .menu a.nl{padding:14px 0;width:100%;border-bottom:1px solid var(--line);font-size:17px}
     .burger{display:flex}
