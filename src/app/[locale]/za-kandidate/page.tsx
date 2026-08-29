@@ -16,7 +16,7 @@ export default async function Candidates({params}: {params: Promise<{locale: str
       <section className="pagehero">
         <div className="wrap">
           <div className="eyebrow">{t('ca_eyebrow')}</div>
-          <h1>{t('ca_h1')}</h1>
+          <h1 style={{whiteSpace: 'pre-line'}}>{t('ca_h1')}</h1>
           <p className="lead">{t('ca_lead')}</p>
         </div>
       </section>
