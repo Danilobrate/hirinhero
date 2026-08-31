@@ -40,7 +40,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
             <div className="stat"><div className="n" data-count="700">700<span className="accent">+</span></div><div className="l">{t('s2')}</div></div>
             <div className="stat"><div className="n" data-count="20">20<span className="accent">+</span></div><div className="l">{t('s3')}</div></div>
             <div className="stat"><div className="n" data-count="12">12<span className="accent">+</span></div><div className="l">{t('s4')}</div></div>
-            <div className="stat"><div className="n">14k<span className="accent">+</span></div><div className="l">{t('s5')}</div></div>
+            <div className="stat"><div className="n">15.5k<span className="accent">+</span></div><div className="l">{t('s5')}</div></div>
             <div className="stat"><div className="n">5</div><div className="l">{t('s6')}</div></div>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
             <div className="eyebrow">{t('ref_eyebrow')}</div>
             <h2>{t('ref_h2')}</h2>
           </div>
-          <LogoWall limit={10} />
+          <LogoWall />
           <Testimonials />
         </div>
       </section>
