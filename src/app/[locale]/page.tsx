@@ -19,7 +19,7 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
         <div className="wrap">
           <div className="eyebrow reveal">{t('hero_eyebrow')}</div>
           <h1 className="reveal" style={{whiteSpace: 'pre-line'}}>{t('hero_h1')}</h1>
-          <p className="lead reveal">{t('hero_lead')}</p>
+          <p className="lead reveal" style={{whiteSpace: 'pre-line'}}>{t('hero_lead')}</p>
           <div className="hero-cta reveal">
             <Link className="btn btn-primary" href="/za-poslodavce">{t('hero_cta1')}</Link>
             <Link className="btn btn-ghost" href="/za-kandidate">{t('hero_cta2')}</Link>
