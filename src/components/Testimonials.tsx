@@ -5,7 +5,7 @@ export default async function Testimonials() {
   const t = await getTranslations();
   const locale = await getLocale();
   const items = await getTestimonials(locale);
-  const data = items ?? [1, 2, 3].map(i => ({
+  const data = items ?? [1, 2, 3, 4, 5, 6].map(i => ({
     quote: t(`t${i}_q`), name: t(`t${i}_n`), role: t(`t${i}_r`)
   }));
   return (
@@ -21,11 +21,6 @@ export default async function Testimonials() {
           </div>
         ))}
       </div>
-      {!items && (
-        <p className="note reveal" style={{textAlign: 'center', marginTop: 22}}>
-          <span className="ph">{t('t_note')}</span>
-        </p>
-      )}
     </>
   );
 }
