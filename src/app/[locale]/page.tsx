@@ -24,12 +24,6 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
             <Link className="btn btn-primary" href="/za-poslodavce">{t('hero_cta1')}</Link>
             <Link className="btn btn-ghost" href="/za-kandidate">{t('hero_cta2')}</Link>
           </div>
-          <div className="hero-meta reveal">
-            <div><b>15+</b> <span>{t('hero_m1')}</span></div>
-            <div><b>700+</b> <span>{t('hero_m2')}</span></div>
-            <div><b>60+</b> <span>{t('hero_m3')}</span></div>
-            <div><b>12+</b> <span>{t('hero_m4')}</span></div>
-          </div>
         </div>
       </section>
 
@@ -101,9 +95,6 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
               <span className="badge">{t('ai_badge')}</span>
               <h2>{t('ai_h2')}</h2>
               <p>{t('ai_p')}</p>
-            </div>
-            <div className="side">
-              <button className="btn btn-gold" type="button">{t('ai_cta1')}</button>
             </div>
           </div>
         </div>
