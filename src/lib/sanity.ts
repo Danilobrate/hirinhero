@@ -48,7 +48,10 @@ export async function getPosts(locale: string): Promise<Post[]> {
 
 /* Fallback lista klijenata (dok se ne unesu u CMS) */
 export const FALLBACK_CLIENTS = [
-  'Alter Modus', "Sotheby's Montenegro", 'TechnoGym', 'RBK Cosmetics', 'Coinis',
-  'ETG Group', 'Qbik', 'Sienersys', 'Air Montenegro', 'Euromix Beton',
-  'Vertigo', 'Metron', 'Spotlight', 'Emmeti', 'Structos'
+  'Air Montenegro', 'Alliance', 'Alter Modus', 'Biro All', 'Coinis',
+  'Creditreform.de', 'Emmeti', 'ETG Grupa', 'Euromix Beton', 'GRAWE',
+  'Meba - Kärcher centar', 'Metron', 'Orcos Beauty', 'POS4ME', 'PR Consultancy Hub',
+  'QBIK', 'RBK Cosmetics', 'Ruža vjetrova by Radisson', "Sotheby's Montenegro", 'Structos Construction',
+  'Techno Gym', 'Tehnocolor', 'Urion', 'Veltex Group', 'Vertigo Montenegro',
+  'VG eFiskal', 'Zheng-He'
 ];
