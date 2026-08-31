@@ -104,7 +104,6 @@ export default async function Home({params}: {params: Promise<{locale: string}>}
             </div>
             <div className="side">
               <button className="btn btn-gold" type="button">{t('ai_cta1')}</button>
-              <span className="note" style={{color: 'rgba(255,255,255,.6)'}}>{t('ai_soon')}</span>
             </div>
           </div>
         </div>
