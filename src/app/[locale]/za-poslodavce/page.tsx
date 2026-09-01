@@ -2,9 +2,19 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import Wizard from '@/components/Wizard';
 import {employerWizard} from '@/components/wizardConfigs';
 
-export async function generateMetadata() {
-  const t = await getTranslations();
-  return {title: t('nav_emp')};
+export async function generateMetadata({params}: {params: Promise<{locale: string}>}) {
+  const {locale} = await params;
+  const t = await getTranslations({locale});
+  const title = t('em_h1').split('\n').join(' ');
+  const description = t('em_lead');
+  const path = (locale === 'me' ? '' : '/en') + '/za-poslodavce';
+  return {
+    title: t('nav_emp'),
+    description,
+    openGraph: {title, description, url: path},
+    twitter: {title, description},
+    alternates: {canonical: path}
+  };
 }
 
 export default async function Employers({params}: {params: Promise<{locale: string}>}) {
