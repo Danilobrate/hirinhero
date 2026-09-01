@@ -17,15 +17,17 @@ export async function generateMetadata({params}: {params: Promise<{locale: strin
   const {locale} = await params;
   const t = await getTranslations({locale});
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://hirinhero.me';
+  const homePath = locale === 'me' ? '/' : '/en';
   return {
     metadataBase: new URL(base),
     title: {default: t('meta_title'), template: '%s - Hirin’ Hero'},
     description: t('meta_desc'),
     openGraph: {
-      title: t('meta_title'), description: t('meta_desc'), url: base,
+      title: t('meta_title'), description: t('meta_desc'), url: homePath,
       siteName: 'Hirin’ Hero', locale: locale === 'me' ? 'sr_ME' : 'en_US', type: 'website'
     },
-    alternates: {canonical: '/', languages: {'sr-ME': '/', en: '/en'}}
+    twitter: {card: 'summary_large_image', title: t('meta_title'), description: t('meta_desc')},
+    alternates: {canonical: homePath, languages: {'sr-ME': '/', en: '/en'}}
   };
 }
 
