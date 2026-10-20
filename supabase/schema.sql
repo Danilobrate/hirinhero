@@ -37,3 +37,16 @@ alter table candidates enable row level security;
 alter table inquiries enable row level security;
 
 -- STORAGE: rucno kreirati PRIVATE bucket "cvs" (Storage > New bucket > name: cvs, public: OFF)
+
+-- 2026-10-21: obavezni identifikacioni podaci (dodato kao NOT VALID — stari zapisi se ne provjeravaju)
+alter table public.inquiries
+  add constraint inquiries_employer_identity_required
+  check (kind <> 'employer' or (
+    coalesce(btrim(company), '') <> '' and
+    coalesce(btrim(contact_person), '') <> '' and
+    coalesce(btrim(contact), '') <> ''
+  )) not valid;
+
+alter table public.candidates
+  add constraint candidates_identity_required
+  check (btrim(full_name) <> '' and coalesce(btrim(phone), '') <> '') not valid;
