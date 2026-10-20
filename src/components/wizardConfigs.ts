@@ -3,6 +3,7 @@ export type Field = {
   name: string; k: string;
   type: 'text' | 'textarea' | 'email' | 'number' | 'select' | 'file' | 'radio' | 'checkbox';
   helpKey?: string;
+  required?: boolean;
   options?: {value: string; k: string; dk?: string}[];
 };
 export type Step = {titleKey: string; subKey?: string; grid?: boolean; fields: Field[]};
@@ -16,12 +17,12 @@ export const employerWizard: WizardConfig = {
   id: 'wiz-emp', endpoint: '/api/inquiry', submitKey: 'em_submit', doneKey: 'em_done',
   steps: [
     {titleKey: 'est1', subKey: 'wz_note', grid: true, fields: [
-      {name: 'company', k: 'em_f1', type: 'text'},
+      {name: 'company', k: 'em_f1', type: 'text', required: true},
       {name: 'industry', k: 'em_f2', type: 'text'},
       {name: 'role', k: 'em_f3', type: 'text'},
       {name: 'headcount', k: 'em_f4', type: 'number'},
-      {name: 'contact_person', k: 'em_f5', type: 'text'},
-      {name: 'contact', k: 'em_f6', type: 'text'}
+      {name: 'contact_person', k: 'em_f5', type: 'text', required: true},
+      {name: 'contact', k: 'em_f6', type: 'text', required: true}
     ]},
     {titleKey: 'est2', subKey: 'eq_na', fields: [q(1, 'q1'), q(2, 'q2'), q(3, 'q3')]},
     {titleKey: 'est3', fields: [q(4, 'q4'), q(5, 'q5'), q(6, 'q6'), q(7, 'q7'), q(8, 'q8')]},
@@ -39,9 +40,9 @@ export const candidateWizard: WizardConfig = {
   id: 'wiz-cand', endpoint: '/api/apply', submitKey: 'ca_submit', doneKey: 'ca_done',
   steps: [
     {titleKey: 'cst1', subKey: 'wz_note', grid: true, fields: [
-      {name: 'full_name', k: 'ca_f1', type: 'text'},
+      {name: 'full_name', k: 'ca_f1', type: 'text', required: true},
       {name: 'birth_year', k: 'ca_f2', type: 'text'},
-      {name: 'phone', k: 'ca_f3', type: 'text'},
+      {name: 'phone', k: 'ca_f3', type: 'text', required: true},
       {name: 'email', k: 'ca_f4', type: 'email'},
       {name: 'work_status', k: 'cq_status', type: 'select', options: [
         {value: '', k: 'cq_sel'}, {value: 'zaposlen', k: 'cqs1'}, {value: 'nezaposlen', k: 'cqs2'},

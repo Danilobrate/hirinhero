@@ -1,24 +1,36 @@
 import {NextRequest, NextResponse} from 'next/server';
 import {supabaseAdmin, notify, isConfigured, answersToText} from '@/lib/backend';
 
+const str = (v: unknown) => (typeof v === 'string' ? v.trim() : v == null ? '' : String(v).trim());
+const orNull = (v: unknown) => str(v) || null;
+
+// Polja bez kojih upit poslodavca nema smisla (ne znamo ko je poslao)
+const REQUIRED_EMPLOYER = ['company', 'contact_person', 'contact'] as const;
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     if (body.consent !== true && body.kind !== 'contact') {
       return NextResponse.json({ok: false, error: 'consent_required'}, {status: 400});
     }
+    const kind = body.kind === 'contact' ? 'contact' : 'employer';
+    if (kind === 'employer') {
+      const missing = REQUIRED_EMPLOYER.filter(k => !str(body[k]));
+      if (missing.length) {
+        return NextResponse.json({ok: false, error: 'missing_fields', fields: missing}, {status: 400});
+      }
+    }
     if (!isConfigured()) {
       return NextResponse.json({ok: false, error: 'not_configured'}, {status: 503});
     }
-    const kind = body.kind === 'contact' ? 'contact' : 'employer';
     const basics = {
       kind,
-      company: body.company ?? null,
-      industry: body.industry ?? null,
-      role: body.role ?? null,
+      company: orNull(body.company),
+      industry: orNull(body.industry),
+      role: orNull(body.role),
       headcount: body.headcount ? Number(body.headcount) : null,
-      contact_person: body.contact_person ?? null,
-      contact: body.contact ?? null,
+      contact_person: orNull(body.contact_person),
+      contact: orNull(body.contact),
       locale: body.locale ?? 'me'
     };
     const answers: Record<string, string> = {};

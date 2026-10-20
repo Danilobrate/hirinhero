@@ -310,5 +310,6 @@
  "ft_legal": "Legal",
  "nav_posts": "News",
  "posts_title": "News & updates",
- "posts_empty": "Coming soon - our first posts are in the works."
+ "posts_empty": "Coming soon - our first posts are in the works.",
+ "wz_required": "Please fill in the required fields marked with an asterisk (*)."
 }

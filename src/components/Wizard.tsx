@@ -1,5 +1,5 @@
 'use client';
-import {useMemo, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import {useTranslations, useLocale} from 'next-intl';
 import type {WizardConfig, Field} from './wizardConfigs';
 
@@ -15,6 +15,7 @@ export default function Wizard({config}: {config: WizardConfig}) {
   const [cvErr, setCvErr] = useState('');
   const [state, setState] = useState<'idle' | 'sending' | 'done' | 'error'>('idle');
   const [consentErr, setConsentErr] = useState(false);
+  const [invalid, setInvalid] = useState<string[]>([]);
   const boxRef = useRef<HTMLDivElement>(null);
 
   const isFilled = (f: Field) =>
@@ -30,9 +31,23 @@ export default function Wizard({config}: {config: WizardConfig}) {
   const curFilled = curFields.length ? curFields.filter(isFilled).length / curFields.length : 1;
   const pct = Math.min(100, Math.round(((step + curFilled) / totalSteps) * 100));
 
-  const set = (name: string, v: string | boolean) => setValues(p => ({...p, [name]: v}));
+  // Obavezna polja koja nijesu popunjena na datom koraku
+  const missingIn = (i: number) =>
+    config.steps[i].fields.filter(f => f.required && !isFilled(f)).map(f => f.name);
+
+  const set = (name: string, v: string | boolean) => {
+    setValues(p => ({...p, [name]: v}));
+    if (invalid.includes(name)) setInvalid(p => p.filter(n => n !== name));
+  };
   const scrollTop = () => boxRef.current?.scrollIntoView({behavior: 'smooth', block: 'start'});
   const go = (i: number) => { setStep(i); scrollTop(); };
+
+  const next = () => {
+    const miss = missingIn(step);
+    if (miss.length) { setInvalid(miss); scrollTop(); return; }
+    setInvalid([]);
+    go(step + 1);
+  };
 
   const onCv = (f: File | null) => {
     setCvErr('');
@@ -44,8 +59,13 @@ export default function Wizard({config}: {config: WizardConfig}) {
   };
 
   const submit = async () => {
+    // Zaštita: provjeri obavezna polja na svim koracima prije slanja
+    for (let i = 0; i < config.steps.length; i++) {
+      const miss = missingIn(i);
+      if (miss.length) { setInvalid(miss); go(i); return; }
+    }
     if (values['consent'] !== true) { setConsentErr(true); return; }
-    setConsentErr(false); setState('sending');
+    setConsentErr(false); setInvalid([]); setState('sending');
     try {
       let res: Response;
       if (config.endpoint === '/api/apply') {
@@ -60,7 +80,17 @@ export default function Wizard({config}: {config: WizardConfig}) {
           body: JSON.stringify({...values, locale})
         });
       }
-      if (!res.ok) throw new Error(String(res.status));
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        if (data?.error === 'missing_fields' && Array.isArray(data.fields)) {
+          const names: string[] = data.fields;
+          const idx = config.steps.findIndex(s => s.fields.some(f => names.includes(f.name)));
+          setInvalid(names); setState('idle');
+          go(idx >= 0 ? idx : 0);
+          return;
+        }
+        throw new Error(String(res.status));
+      }
       setState('done'); scrollTop();
     } catch { setState('error'); }
   };
@@ -90,9 +120,10 @@ export default function Wizard({config}: {config: WizardConfig}) {
           <div key={s.titleKey} className={'wz-step' + (i === step ? ' active' : '')}>
             <h3>{t(s.titleKey)}</h3>
             {s.subKey && <p className="wz-sub">{t(s.subKey)}</p>}
+            {i === step && invalid.length > 0 && <p className="wz-err">{t('wz_required')}</p>}
             <div className={s.grid ? 'form-grid' : undefined}>
               {s.fields.map(f => <FieldEl key={f.name} f={f} values={values} set={set}
-                cv={cv} cvErr={cvErr} onCv={onCv} t={t} />)}
+                cv={cv} cvErr={cvErr} onCv={onCv} t={t} bad={invalid.includes(f.name)} />)}
             </div>
           </div>
         ))}
@@ -102,8 +133,8 @@ export default function Wizard({config}: {config: WizardConfig}) {
       <div className="wz-nav">
         <button type="button" className="btn btn-ghost"
           style={{visibility: step === 0 ? 'hidden' : 'visible'}}
-          onClick={() => go(step - 1)}>{t('wz_back')}</button>
-        {!last && <button type="button" className="btn btn-primary" onClick={() => go(step + 1)}>{t('wz_next')}</button>}
+          onClick={() => { setInvalid([]); go(step - 1); }}>{t('wz_back')}</button>
+        {!last && <button type="button" className="btn btn-primary" onClick={next}>{t('wz_next')}</button>}
         {last && <button type="button" className="btn btn-gold" disabled={state === 'sending'}
           onClick={submit}>{state === 'sending' ? t('wz_sending') : t(config.submitKey)}</button>}
       </div>
@@ -111,13 +142,16 @@ export default function Wizard({config}: {config: WizardConfig}) {
   );
 }
 
-function FieldEl({f, values, set, cv, cvErr, onCv, t}: {
+function FieldEl({f, values, set, cv, cvErr, onCv, t, bad}: {
   f: Field; values: Record<string, string | boolean>;
   set: (n: string, v: string | boolean) => void;
   cv: File | null; cvErr: string; onCv: (f: File | null) => void;
   t: ReturnType<typeof useTranslations>;
+  bad: boolean;
 }) {
   const v = values[f.name];
+  const label = <label>{t(f.k)}{f.required && <span className="req"> *</span>}</label>;
+  const cls = 'field' + (bad ? ' invalid' : '');
   if (f.type === 'checkbox') return (
     <label className="consent" style={{marginTop: 16}}>
       <input type="checkbox" checked={v === true} onChange={e => set(f.name, e.target.checked)} />
@@ -125,8 +159,8 @@ function FieldEl({f, values, set, cv, cvErr, onCv, t}: {
     </label>
   );
   if (f.type === 'radio') return (
-    <div className="field">
-      <label>{t(f.k)}</label>
+    <div className={cls}>
+      {label}
       <div className="status-opts">
         {f.options!.map(o => (
           <label key={o.value}>
@@ -138,8 +172,8 @@ function FieldEl({f, values, set, cv, cvErr, onCv, t}: {
     </div>
   );
   if (f.type === 'file') return (
-    <div className="field">
-      <label>{t(f.k)}</label>
+    <div className={cls}>
+      {label}
       <label className="file" style={{display: 'block'}}>
         <input type="file" accept=".pdf,.docx" style={{display: 'none'}}
           onChange={e => onCv(e.target.files?.[0] ?? null)} />
@@ -149,26 +183,28 @@ function FieldEl({f, values, set, cv, cvErr, onCv, t}: {
     </div>
   );
   if (f.type === 'select') return (
-    <div className="field">
-      <label>{t(f.k)}</label>
+    <div className={cls}>
+      {label}
       <select value={(v as string) || ''} onChange={e => set(f.name, e.target.value)}>
         {f.options!.map(o => <option key={o.k} value={o.value}>{t(o.k)}</option>)}
       </select>
     </div>
   );
   if (f.type === 'textarea') return (
-    <div className="field">
-      <label>{t(f.k)}</label>
+    <div className={cls}>
+      {label}
       {f.helpKey && <p className="wz-help">{t(f.helpKey)}</p>}
-      <textarea value={(v as string) || ''} onChange={e => set(f.name, e.target.value)} />
+      <textarea value={(v as string) || ''} onChange={e => set(f.name, e.target.value)}
+        aria-required={f.required || undefined} aria-invalid={bad || undefined} />
     </div>
   );
   return (
-    <div className="field">
-      <label>{t(f.k)}</label>
+    <div className={cls}>
+      {label}
       {f.helpKey && <p className="wz-help">{t(f.helpKey)}</p>}
       <input type={f.type} min={f.type === 'number' ? 1 : undefined}
-        value={(v as string) || ''} onChange={e => set(f.name, e.target.value)} />
+        value={(v as string) || ''} onChange={e => set(f.name, e.target.value)}
+        aria-required={f.required || undefined} aria-invalid={bad || undefined} />
     </div>
   );
 }

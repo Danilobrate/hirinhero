@@ -4,15 +4,22 @@ import {supabaseAdmin, notify, isConfigured, answersToText} from '@/lib/backend'
 const MAX_CV = 5 * 1024 * 1024;
 const ALLOWED = ['pdf', 'docx'];
 
+// Polja bez kojih ne možemo kontaktirati kandidata
+const REQUIRED_CANDIDATE = ['full_name', 'phone'] as const;
+
 export async function POST(req: NextRequest) {
   try {
     const fd = await req.formData();
     const get = (k: string) => {
       const v = fd.get(k);
-      return typeof v === 'string' ? v : '';
+      return typeof v === 'string' ? v.trim() : '';
     };
     if (get('consent') !== 'true') {
       return NextResponse.json({ok: false, error: 'consent_required'}, {status: 400});
+    }
+    const missing = REQUIRED_CANDIDATE.filter(k => !get(k));
+    if (missing.length) {
+      return NextResponse.json({ok: false, error: 'missing_fields', fields: missing}, {status: 400});
     }
     if (!isConfigured()) {
       return NextResponse.json({ok: false, error: 'not_configured'}, {status: 503});

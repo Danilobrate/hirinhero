@@ -248,3 +248,8 @@
 .cb-btns{display:flex;gap:10px}
 .cookiebar .btn{padding:10px 18px;font-size:14px}
 :root{--font-inter:"Inter"}
+
+/* Obavezna polja u upitnicima */
+.field .req{color:#b02a30;font-weight:700}
+.field.invalid input,.field.invalid textarea,.field.invalid select{border-color:#b02a30;background:#fff7f7}
+.field.invalid input:focus,.field.invalid textarea:focus,.field.invalid select:focus{box-shadow:0 0 0 3px rgba(176,42,48,.12)}

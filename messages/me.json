@@ -308,5 +308,6 @@
  "ft_legal": "Pravno",
  "nav_posts": "Objave",
  "posts_title": "Objave i novosti",
- "posts_empty": "Uskoro - pripremamo prve objave."
+ "posts_empty": "Uskoro - pripremamo prve objave.",
+ "wz_required": "Popunite obavezna polja označena zvjezdicom (*)."
 }
